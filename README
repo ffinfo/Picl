@@ -1,0 +1,24 @@
+--------------------------------------------------------------------------------
+README : PICL
+--------------------------------------------------------------------------------
+
+1.   Requirements
+
+1.1. c++ compiler that supports c++11. For gcc version 4.7+ is needed.
+
+1.2. Compiled bamtools 2.* (1.* does not work)
+How to do this see:
+https://github.com/pezmaster31/bamtools/wiki/Building-and-installing
+1.3. Make bamtools libraries system wide available, by example copying them to /usr/lib64/
+1.4. Run 'sudo ldconfig' to reload the libraries cache
+1.5. Save the include directory from bamtools, those are needed to compile Picl
+
+2.   Compiling
+2.1. Make includes from bamtools available to the compiler
+- Run 'echo $CPATH'
+- If $CPATH already contains the directory from 1.5. skip the rest of 2.1.
+- If this is empty run 'export CPATH=<Directory from 1.5.>'
+- Else run 'export CPATH=$CPATH:<Directory from 1.5.>'
+2.2. Compiling Picl
+- Run 'make'
+

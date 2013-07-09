@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="88">
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <platform>2</platform>
+      </toolsSet>
+      <dbx_gdbdebugger version="1">
+        <gdb_pathmaps>
+        </gdb_pathmaps>
+        <gdb_interceptlist>
+          <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
+        </gdb_interceptlist>
+        <gdb_options>
+          <DebugOptions>
+          </DebugOptions>
+        </gdb_options>
+        <gdb_buildfirst gdb_buildfirst_overriden="false" gdb_buildfirst_old="false"/>
+      </dbx_gdbdebugger>
+      <nativedebugger version="1">
+        <engine>gdb</engine>
+      </nativedebugger>
+      <runprofile version="9">
+        <runcommandpicklist>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" multisample /data/peter/clusterworkspaces/ItFam/*/*.bpc</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" clustering -config config.properties</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" clustering -config /home/sge_share_fedor13/peter/umc-sv-cases/configfiles/2006D03789.config</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" multisample -trimrefname chr /home/sge_share_fedor13/peter/umc-sv-cases/clusterworkspaces/*/*.bpc</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" multisample -trimrefname chr -c 4 /home/sge_share_fedor13/peter/umc-sv-cases/clusterworkspaces/*/It*.bpc</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" pairedbammaker -ori ni -first /data/peter/LE_test/LE/F3_expectedF3_queryNameSorted.bam -second /data/peter/LE_test/LE/F5_expectedF5_queryNameSorted.bam -output /data/peter/LE_test/LE/test.bam</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" pairedbammaker -ori ni -first /data/peter/LE_test/LE/F3_expectedF3_queryNameSorted.bam -second /data/peter/LE_test/LE/F5_expectedF5_queryNameSorted.bam -output /data/peter/LE_test/LE/test.bam -overwriteoutputfile</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" clustering config.properties</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" filter</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" splitbam -i /data/peter/bamfiles/splitbam_test/ItalyFamilySon_20110512.bam</runcommandpicklistitem>
+        </runcommandpicklist>
+        <runcommand>"${OUTPUT_PATH}" splitbam -i /data/peter/bamfiles/splitbam_test/ItalyFamilySon_20110512.bam</runcommand>
+        <rundir></rundir>
+        <buildfirst>true</buildfirst>
+        <terminal-type>0</terminal-type>
+        <remove-instrumentation>0</remove-instrumentation>
+        <environment>
+        </environment>
+      </runprofile>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <platform>2</platform>
+      </toolsSet>
+      <dbx_gdbdebugger version="1">
+        <gdb_pathmaps>
+        </gdb_pathmaps>
+        <gdb_interceptlist>
+          <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
+        </gdb_interceptlist>
+        <gdb_options>
+          <DebugOptions>
+          </DebugOptions>
+        </gdb_options>
+        <gdb_buildfirst gdb_buildfirst_overriden="false" gdb_buildfirst_old="false"/>
+      </dbx_gdbdebugger>
+      <nativedebugger version="1">
+        <engine>gdb</engine>
+      </nativedebugger>
+      <runprofile version="9">
+        <runcommandpicklist>
+          <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" config.properties</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" clustering config.properties</runcommandpicklistitem>
+        </runcommandpicklist>
+        <runcommand>"${OUTPUT_PATH}" clustering config.properties</runcommand>
+        <rundir></rundir>
+        <buildfirst>true</buildfirst>
+        <terminal-type>0</terminal-type>
+        <remove-instrumentation>0</remove-instrumentation>
+        <environment>
+        </environment>
+      </runprofile>
+    </conf>
+  </confs>
+</configurationDescriptor>
