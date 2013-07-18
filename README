@@ -2,6 +2,8 @@
 README : PICL
 --------------------------------------------------------------------------------
 
+Picl is a program that can detect structural variants based on paired-teg NGS data.
+
 1.   Requirements
 
 1.1. c++ compiler that supports c++11. For gcc version 4.7+ is needed.
@@ -22,3 +24,35 @@ https://github.com/pezmaster31/bamtools/wiki/Building-and-installing
 2.2. Compiling Picl
 - Run 'make'
 
+3. Recommended workflow / Quick start
+
+3.1. Basic config file:
+Workspace = <empty directory>
+LibaryName = <library name>
+PairedBam = <BAM file>
+NameType = Solid4
+LibType = <MP | PE | MP-inv | PE-inv>
+#    MP = Solid matepair
+#    PE = Paired-end Solid and Illumnia
+#    MP-inv = Illumnia matepair
+
+3.2. Clustering
+With the following de SV clustering does start:
+"picl clustering -config <config file>"
+
+3.3. Filtering
+The main output file will be placed in the workspace directory as a .bpc file. This is a binary file and contains the raw results of the clustering. When using the filter most of the noise will be removed when using the following command:
+"picl filter -c 4 -minconcordant 0.25 -maxnoise 0.25 <BPC file>"
+
+3.4. Output
+
+
+4. Modules
+4.1. clustering
+4.2. filter
+4.3. viewclusters
+4.4. viewcoverage
+4.5. pairedbammaker
+4.6. generateconfig
+4.7. multisample
+4.8. splitbam

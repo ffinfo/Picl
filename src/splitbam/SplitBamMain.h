@@ -18,8 +18,16 @@
 
 class SplitBamMain {
 public:
+    struct qValues {
+        unsigned long int all = 0;
+        unsigned long int q30plus = 0;
+        unsigned long int unique = 0;
+    };
+    
     SplitBamMain();
     virtual ~SplitBamMain();
+    
+    void qualitycheck(BamTools::BamAlignment &alignment, qValues &values);
     
     int main(int argc, char* argv[]);
     int usage();

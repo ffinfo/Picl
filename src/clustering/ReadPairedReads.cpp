@@ -50,7 +50,11 @@ void ReadPairedReads::InternalRun() {
     BamTools::BamAlignment alignment;
     BamTools::BamReader BamReader;
     BamReader.Open(config->PairedBam);
-    BamReader.OpenIndex(config->PairedIndex);
+    if (config->PairedIndex.empty()) {
+        BamReader.LocateIndex();
+    } else {
+        BamReader.OpenIndex(config->PairedIndex);
+    }
     bool ForwardOriInverted = config->ForwardOriInverted;
     bool ReverseOriInverted = config->ReverseOriInverted;
     

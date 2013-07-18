@@ -250,6 +250,16 @@ void Config::InitializationClustering() {
             Log("[Error] Could not open paired bam");
             exit(1);
         }
+        if (PairedIndex.empty()) {
+            if (not BamReader.LocateIndex(BamTools::BamIndex::STANDARD)) {
+                PairedIndex = PairedBam.substr(0,PairedBam.find_last_of(".bam")-3) + ".bai";
+                BamReader.OpenIndex(PairedIndex);
+            }
+            if (not BamReader.HasIndex()) {
+                Log("[Error] No index for bamfile");
+                exit(1);
+            }
+        }
         BamTools::SamHeader header = BamReader.GetHeader();
         for (BamTools::SamReadGroupIterator it = header.ReadGroups.Begin(); it != header.ReadGroups.End(); it++) {
             BamTools::SamReadGroup* readgroup = &*it;
@@ -276,6 +286,16 @@ void Config::InitializationClustering() {
             Log("[Error] Could not open first/forward bam");
             exit(1);
         }
+        if (ForwardIndex.empty()) {
+            if (not BamReader.LocateIndex(BamTools::BamIndex::STANDARD)) {
+                ForwardIndex = ForwardBam.substr(0,ForwardBam.find_last_of(".bam")-3) + ".bai";
+                BamReader.OpenIndex(ForwardIndex);
+            }
+            if (not BamReader.HasIndex()) {
+                Log("[Error] No index for forward bamfile");
+                exit(1);
+            }
+        }
         BamTools::SamHeader forwardheader = BamReader.GetHeader();
         for (BamTools::SamReadGroupIterator it = forwardheader.ReadGroups.Begin(); it != forwardheader.ReadGroups.End(); it++) {
             BamTools::SamReadGroup* readgroup = &*it;
@@ -300,6 +320,16 @@ void Config::InitializationClustering() {
         if (not BamReader.IsOpen()) {
             Log("[Error] Could not open second/reverse bam");
             exit(1);
+        }
+        if (ReverseIndex.empty()) {
+            if (not BamReader.LocateIndex(BamTools::BamIndex::STANDARD)) {
+                ReverseIndex = ReverseBam.substr(0,ReverseBam.find_last_of(".bam")-3) + ".bai";
+                BamReader.OpenIndex(ReverseIndex);
+            }
+            if (not BamReader.HasIndex()) {
+                Log("[Error] No index for reverse bamfile");
+                exit(1);
+            }
         }
         BamTools::SamHeader reverseheader = BamReader.GetHeader();
         for (BamTools::SamReadGroupIterator it = reverseheader.ReadGroups.Begin(); it != reverseheader.ReadGroups.End(); it++) {

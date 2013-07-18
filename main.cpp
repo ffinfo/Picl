@@ -21,8 +21,8 @@ using namespace std;
 
 static int usage() {
     cerr << "Usage: <name program> <command> <args>" << endl;
-    cerr << "Commands: clustering " << endl;
-    cerr << "          filter " << endl;
+    cerr << "Commands: clustering" << endl;
+    cerr << "          filter" << endl;
     cerr << "          viewclusters " << endl;
     cerr << "          viewcoverage" << endl;
     cerr << "          pairedbammaker" << endl;

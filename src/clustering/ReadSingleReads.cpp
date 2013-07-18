@@ -56,11 +56,19 @@ void ReadSingleReads::InternalRun() {
     BamTools::BamReader BamReader;
     if (forward) {
         BamReader.Open(config->ForwardBam);
-        BamReader.OpenIndex(config->ForwardIndex);
+        if (config->ForwardIndex.empty()) {
+            BamReader.LocateIndex();
+        } else {
+            BamReader.OpenIndex(config->ForwardIndex);
+        }
         OriInverted = config->ForwardOriInverted;
     } else {
         BamReader.Open(config->ReverseBam);
-        BamReader.OpenIndex(config->ReverseIndex);
+        if (config->ReverseIndex.empty()) {
+            BamReader.LocateIndex();
+        } else {
+            BamReader.OpenIndex(config->ReverseIndex);
+        }
         OriInverted = config->ReverseOriInverted;
     }
     BamReader.SetRegion(BamReader.GetReferenceID(Ref->Name), begin, BamReader.GetReferenceID(Ref->Name), end);
