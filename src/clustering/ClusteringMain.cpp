@@ -27,7 +27,7 @@ int ClusteringMain::usage() {
 }
 
 int ClusteringMain::main(int argc, char *argv[]) {
-    if (argc < 1) return this->usage();
+    if (argc < 2) return this->usage();
     configFile = argv[argc-1];
     for (int t = 1; t < (argc - 1); t++) {
         if (strcmp(argv[t], "-config") == 0) {

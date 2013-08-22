@@ -24,18 +24,18 @@
       </nativedebugger>
       <runprofile version="9">
         <runcommandpicklist>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" multisample -trimrefname chr /home/sge_share_fedor13/peter/umc-sv-cases/clusterworkspaces/*/*.bpc</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" multisample -trimrefname chr -c 4 /home/sge_share_fedor13/peter/umc-sv-cases/clusterworkspaces/*/It*.bpc</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" pairedbammaker -ori ni -first /data/peter/LE_test/LE/F3_expectedF3_queryNameSorted.bam -second /data/peter/LE_test/LE/F5_expectedF5_queryNameSorted.bam -output /data/peter/LE_test/LE/test.bam</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" pairedbammaker -ori ni -first /data/peter/LE_test/LE/F3_expectedF3_queryNameSorted.bam -second /data/peter/LE_test/LE/F5_expectedF5_queryNameSorted.bam -output /data/peter/LE_test/LE/test.bam -overwriteoutputfile</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" filter</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" clustering config.properties</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" clustering ../config.properties</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" splitbam /data/peter/bamfiles/splitbam_test/ItalyFamilySon_20110512.bam</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" splitbam -i /data/peter/bamfiles/splitbam_test/ItalyFamilySon_20110512.bam</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" splitbam -i /data/peter/bamfiles/splitbam_test/ItalyFamilySon_20110512.bam -outputprefix /data/peter/bamfiles/splitbam_test/splitbams/ItalyFamilySon</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" clustering config.properties</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" clustering ../config.properties</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" clustering -ref chr1 -config ../config.properties</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" clustering -config ../config.properties</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" splitbam -i /data/peter/bamfiles/splitbam_test/ItalyFamilySon_20110512.bam -outputprefix /data/peter/bamfiles/splitbam_test/splitbams/ItalyFamilySon</runcommand>
+        <runcommand>"${OUTPUT_PATH}" clustering -config ../config.properties</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <terminal-type>0</terminal-type>

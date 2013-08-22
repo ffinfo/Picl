@@ -38,8 +38,8 @@ public:
     bool UsePairedBam;
     string Workspace, logFile, clusterDir, insertsizeDir, StatsFile, RunningTasksFile, TempDir, BinClusterFile, coverageDir, LibaryName, LibType;
     string ForwardBam, ReverseBam, ForwardIndex, ReverseIndex, PairedBam, PairedIndex; //bam files
-    unsigned int maxX0 = 1, maxX1 = 0, maxXO = 0, maxXM = 100; // BWA filter
-    unsigned int qualityTreshold = 0; // quality filter
+    unsigned int maxX0 = 1, maxX1 = 0, maxXO = 0, maxXM = 10; // BWA filter
+    unsigned int qualityTreshold = 30; // quality filter
     unsigned int clusterMethod = 0;
     bool secondaryClustering = false;
     unsigned int minClearingPairs = 50000;

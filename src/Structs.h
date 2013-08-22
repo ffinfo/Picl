@@ -21,6 +21,7 @@ struct ReadDetails {
     int Lenght : 8;
 };
 struct Singleread {
+    string ID_string;
     long int ID;
     ReadDetails Details;
 };
@@ -151,7 +152,13 @@ struct TransStats {
 struct SortSinglereadOnID {
     bool operator()(const Singleread& t1, const Singleread& t2)
     { 
-        if (t1.ID > t2.ID) {
+        if (t1.ID == t2.ID) {
+            if (t1.ID_string.compare(t2.ID_string) > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (t1.ID > t2.ID) {
                 return true;
         } else {
                 return false;

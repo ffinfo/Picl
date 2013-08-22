@@ -81,6 +81,8 @@ void ReadPairedReads::InternalRun() {
             read.ID = config->readNameConverter.ConvertNameToInt(alignment.Name);
         }
         
+        if (config->NameType == 0) read.ID_string = alignment.Name;
+        
         read.Details.Lenght = alignment.Length;
         read.Details.Position = alignment.Position;
         BWA_TagData tagdata = ReadBWA_TagData(alignment);

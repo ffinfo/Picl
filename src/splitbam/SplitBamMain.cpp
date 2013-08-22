@@ -16,6 +16,7 @@ SplitBamMain::~SplitBamMain() {
 int SplitBamMain::usage() {
     cerr << "Usage: <name program> splitbam <options> -i <input bam file> -outputprefix <map/output prefix>" << endl;
     cerr << " Options: " << endl;
+    //cerr << "   -type <ori | quality>: Split bam on orientation or on pairwise quality" << endl;
     cerr << "   -orientation <xx>: exist out of 1 char for each inputfile, must be 2 chars in total. " << endl;
     cerr << "            n = keep as in input file" << endl;
     cerr << "            i = use inverted for proper pair value" << endl;
@@ -39,7 +40,10 @@ int SplitBamMain::main(int argc, char* argv[]) {
         } else if (strcmp(argv[t], "-outputprefix") == 0) {
             Outputprefix = argv[t+1];
             t++;
-        } else if (strcmp(argv[t], "-orientation") == 0 or strcmp(argv[t], "-ori") == 0) {
+        } else if (strcmp(argv[t], "-type") == 0) {
+            Type = argv[t+1];
+            t++;
+        }else if (strcmp(argv[t], "-orientation") == 0 or strcmp(argv[t], "-ori") == 0) {
             string Ori = argv[t+1];
             string First = Ori.substr(0,1);
             string Second = Ori.substr(1,2);
@@ -66,7 +70,36 @@ int SplitBamMain::main(int argc, char* argv[]) {
         Outputprefix = Inputfile.substr(0, Inputfile.find_last_of(".bam") - 3);
     }
     
-    //BamReader.SetRegion(BamReader.GetReferenceID("chr1"),40000000, BamReader.GetReferenceID("chr1"), 50000000);
+    if (Type.compare("ori") == 0) return splitOnOri();
+    else if (Type.compare("ori") == 0) return splitOnQuality();
+    else {
+        cerr << "Type not found" << endl;
+        return 1;
+    }
+}
+
+void SplitBamMain::qualitycheck(BamTools::BamAlignment &alignment, qValues& values) {
+    values.all++;
+    if (alignment.MapQuality >= 30) {
+        values.q30plus++;
+        BWA_TagData tagdata;
+    
+        if (!alignment.GetTag("X0", tagdata.X0)) {
+            tagdata.X0 = 1;
+        }
+        if (!alignment.GetTag("X1", tagdata.X1)) {
+            tagdata.X1 = 0;
+        }
+        if (tagdata.X0 == 1 and tagdata.X1 == 0) {
+            values.unique++;
+        }
+    }
+}
+
+int SplitBamMain::splitOnOri() {
+    BamTools::BamWriter OutputWriter_TH, OutputWriter_TT, OutputWriter_HH, OutputWriter_HT;
+    BamTools::BamWriter OutputWriter_Translocation;
+    BamTools::BamWriter OutputWriter_Singletons_T, OutputWriter_Singletons_H, OutputWriter_Unmapped;
     
     OutputWriter_TH.Open(Outputprefix + "_TH.bam", BamReader.GetHeader(), BamReader.GetReferenceData()); // Normal
     OutputWriter_TT.Open(Outputprefix + "_TT.bam", BamReader.GetHeader(), BamReader.GetReferenceData());
@@ -225,20 +258,49 @@ int SplitBamMain::main(int argc, char* argv[]) {
     return 0;
 }
 
-void SplitBamMain::qualitycheck(BamTools::BamAlignment &alignment, qValues& values) {
-    values.all++;
-    if (alignment.MapQuality >= 30) {
-        values.q30plus++;
-        BWA_TagData tagdata;
-    
-        if (!alignment.GetTag("X0", tagdata.X0)) {
-            tagdata.X0 = 1;
-        }
-        if (!alignment.GetTag("X1", tagdata.X1)) {
-            tagdata.X1 = 0;
-        }
-        if (tagdata.X0 == 1 and tagdata.X1 == 0) {
-            values.unique++;
-        }
+int SplitBamMain::splitOnQuality() {
+    if (BamReader.GetHeader().SortOrder.compare("queryname") != 0) {
+        cerr << "Bamfile is not sorted on readname" << endl;
+        return 1;
     }
+    
+    BamTools::BamWriter OutputWriter_LowQuality, OutputWriter_Upstream_HighwQuality, OutputWriter_Downstream_HighwQuality, OutputWriter_HighwQuality;
+    
+    OutputWriter_LowQuality.Open(Outputprefix + "_LowQuality.bam", BamReader.GetHeader(), BamReader.GetReferenceData());
+    OutputWriter_Upstream_HighwQuality.Open(Outputprefix + "_Upstream_HighwQuality.bam", BamReader.GetHeader(), BamReader.GetReferenceData());
+    OutputWriter_Downstream_HighwQuality.Open(Outputprefix + "_Downstream_HighwQuality.bam", BamReader.GetHeader(), BamReader.GetReferenceData());
+    OutputWriter_HighwQuality.Open(Outputprefix + "_HighwQuality.bam", BamReader.GetHeader(), BamReader.GetReferenceData());
+    
+    vector<BamTools::BamAlignment> samename;
+    
+//    struct write {
+//        void WriteAlignments() {
+//            if (samename.size() < 2) return;
+//            
+//            BamTools::BamAlignment *Alignment1 = &samename[0];
+//            BamTools::BamAlignment *Alignment2 = &samename[1];
+//            if (Alignment1->MapQuality >= 30 and Alignment2->MapQuality >= 30) {
+//                
+//            }
+//        }
+//    };
+    
+    BamTools::BamAlignment Alignment;
+    while (BamReader.GetNextAlignment(Alignment)) {
+        if (samename.size() > 0) {
+            if (Alignment.Name.compare(samename[0].Name) != 0) {
+                //if (samename.size() < 2) continue;
+            
+                BamTools::BamAlignment *Alignment1 = &samename[0];
+                BamTools::BamAlignment *Alignment2 = &samename[1];
+                if (Alignment1->MapQuality >= 30 and Alignment2->MapQuality >= 30) {
+
+                }
+            }
+        }
+        samename.push_back(Alignment);
+    }
+    
+    BamReader.Close();
+    return 0;
 }

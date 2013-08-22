@@ -48,6 +48,7 @@ unsigned long int ReadNameConverter::ConvertNameToInt(string &Name, string &Read
         case Solid5_2: return ConvertSolid5_2(Name, ReadGroup);
         case Ilumnia: return ConvertIlumnia(Name, ReadGroup);
         case Simulated: return ConvertSimulated(Name);
+        default: return 7;
     }
     cerr << "No NameType found while Convert Name To Int" << endl;
     exit(1);

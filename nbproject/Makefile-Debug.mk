@@ -82,7 +82,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L../../src/bamtools-master/lib -lbamtools-utils -lbamtools -lpthread
+LDLIBSOPTIONS=-L../../src/bamtools-master/lib -lbamtools
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -90,7 +90,7 @@ LDLIBSOPTIONS=-L../../src/bamtools-master/lib -lbamtools-utils -lbamtools -lpthr
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/picl: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/picl ${OBJECTFILES} ${LDLIBSOPTIONS}
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/picl ${OBJECTFILES} ${LDLIBSOPTIONS} -lz -pthread
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}

@@ -137,6 +137,7 @@
       <compileType>
         <ccTool>
           <standard>8</standard>
+          <commandlineTool>g++</commandlineTool>
           <incDir>
             <pElem>../../src/bamtools-master/include</pElem>
           </incDir>
@@ -147,10 +148,9 @@
             <pElem>../../src/bamtools-master/lib</pElem>
           </linkerAddLib>
           <linkerLibItems>
-            <linkerLibLibItem>bamtools-utils</linkerLibLibItem>
             <linkerLibLibItem>bamtools</linkerLibLibItem>
-            <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
           </linkerLibItems>
+          <commandLine>-lz -pthread</commandLine>
         </linkerTool>
       </compileType>
       <item path="../config.properties" ex="false" tool="3" flavor2="0">

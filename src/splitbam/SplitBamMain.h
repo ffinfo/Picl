@@ -31,14 +31,16 @@ public:
     
     int main(int argc, char* argv[]);
     int usage();
+    
+    int splitOnOri();
+    int splitOnQuality();
 private:
     bool FirstOriInverted = false, SecondOriInverted = false, CorrectOriFirst = false, CorrectOriSecond = false;
     string Inputfile, Outputprefix;
     
+    string Type = "ori";
+    
     BamTools::BamReader BamReader;
-    BamTools::BamWriter OutputWriter_TH, OutputWriter_TT, OutputWriter_HH, OutputWriter_HT;
-    BamTools::BamWriter OutputWriter_Translocation;
-    BamTools::BamWriter OutputWriter_Singletons_T, OutputWriter_Singletons_H, OutputWriter_Unmapped;
 };
 
 #endif	/* SPLITBAMMAIN_H */

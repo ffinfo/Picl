@@ -63,7 +63,7 @@ void Pairing::InternalRun() {
             ++SecondIt;
             continue;
         }
-        if (FirstIt->ID == SecondIt->ID) {
+        if ((config->NameType != 0 && FirstIt->ID == SecondIt->ID) || (config->NameType == 0 && FirstIt->ID_string.compare(SecondIt->ID_string) == 0)) {
             ProcesPair(FirstIt->Details, SecondIt->Details);
             
             FirstIt->ID = 0;
@@ -71,7 +71,7 @@ void Pairing::InternalRun() {
             ++FirstIt;
             ++SecondIt;
             ++Paired;
-        } else if (FirstIt->ID > SecondIt->ID) {
+        } else if ((config->NameType != 0 && FirstIt->ID > SecondIt->ID) || (config->NameType == 0 && FirstIt->ID_string.compare(SecondIt->ID_string) > 0)) {
             if (FirstIt != FirstReads->end()) ++FirstIt;
         } else {
             if (SecondIt != SecondReads->end()) ++SecondIt;
