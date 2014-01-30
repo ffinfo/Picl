@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="88">
+<configurationDescriptor version="90">
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="Debug" type="1">
@@ -24,9 +24,6 @@
       </nativedebugger>
       <runprofile version="9">
         <runcommandpicklist>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" pairedbammaker -ori ni -first /data/peter/LE_test/LE/F3_expectedF3_queryNameSorted.bam -second /data/peter/LE_test/LE/F5_expectedF5_queryNameSorted.bam -output /data/peter/LE_test/LE/test.bam</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" pairedbammaker -ori ni -first /data/peter/LE_test/LE/F3_expectedF3_queryNameSorted.bam -second /data/peter/LE_test/LE/F5_expectedF5_queryNameSorted.bam -output /data/peter/LE_test/LE/test.bam -overwriteoutputfile</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" filter</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" splitbam /data/peter/bamfiles/splitbam_test/ItalyFamilySon_20110512.bam</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" splitbam -i /data/peter/bamfiles/splitbam_test/ItalyFamilySon_20110512.bam</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" splitbam -i /data/peter/bamfiles/splitbam_test/ItalyFamilySon_20110512.bam -outputprefix /data/peter/bamfiles/splitbam_test/splitbams/ItalyFamilySon</runcommandpicklistitem>
@@ -34,8 +31,11 @@
           <runcommandpicklistitem>"${OUTPUT_PATH}" clustering ../config.properties</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" clustering -ref chr1 -config ../config.properties</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" clustering -config ../config.properties</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" clustering -config config.properties</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" filter -i ~/Documents/PiclWorkspaces/testtestSim.bpc -vcf</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" filter -i ~/Documents/PiclWorkspaces/test/testSim.bpc -vcf</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" clustering -config ../config.properties</runcommand>
+        <runcommand>"${OUTPUT_PATH}" filter -i ~/Documents/PiclWorkspaces/test/testSim.bpc -vcf</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <terminal-type>0</terminal-type>

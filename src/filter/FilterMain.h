@@ -29,6 +29,7 @@ private:
     unsigned short int MinMustOption = 0;
     string InputFile;
     string CoverageDir = "";
+    bool VCFoutput = false;
     
     ClusterFile Input;
     

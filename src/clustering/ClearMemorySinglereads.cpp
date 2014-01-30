@@ -85,13 +85,15 @@ void ClearMemorySinglereads::InternalRun() {
     
     vector<Singleread>::iterator ReadsIt;
     sort(SingleReads->begin(), SingleReads->end(), SortSinglereadOnID());
+    Singleread *t;
     for (ReadsIt = SingleReads->end(); ReadsIt != SingleReads->begin(); ReadsIt--) {
-        if (ReadsIt->ID != 0){
+        t = ReadsIt.base();
+        if (t->ID != 0){
             ReadsIt++;
             break;
         }
     }
-    if (ReadsIt->ID <= 0) {
+    if (t->ID <= 0) {
         SingleReads->erase(ReadsIt, SingleReads->end());
     }
     

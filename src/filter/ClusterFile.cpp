@@ -59,6 +59,10 @@ bool ClusterFile::ReadFile(string filename, vector<string> &trim, int Cuttoff, f
     header.ID_to_Ref.clear();
     fstream file;
     file.open(filename, ios::binary | ios::in);
+    if (not file.is_open()) {
+        cerr << "File: " << filename << " can't be opened";
+        exit(1);
+    }
     
     //Ref header
     ReadNameConverter readNameConverter;
@@ -274,7 +278,12 @@ string ClusterFile::GenerateKey(string &ref1, string &ref2, string &type, string
 }
 
 string ClusterFile::PrintFile(unsigned short int MinAgainst, unsigned short int MinMust) {
+    return PrintFile(MinAgainst, MinMust, false);
+}
+
+string ClusterFile::PrintFile(unsigned short int MinAgainst, unsigned short int MinMust, bool VCFoutput) {
     stringstream buffer;
+    
     for(map<string,DataKey>::iterator it = Data.begin(); it != Data.end(); it++) {
         for (DataValue value : it->second.Values) {
             if (value.FirstConcordantOverlap == 0) value.FirstConcordantOverlap++;
@@ -292,16 +301,23 @@ string ClusterFile::PrintFile(unsigned short int MinAgainst, unsigned short int 
             
             if ((value.against >= MinAgainst && MinAgainst != 0) || (value.must < MinMust && MinMust != 0)) continue;
             
-            buffer << it->second.Ref1 << "\t" << value.start1 << "\t" << value.end1 << "\t";
-            buffer << it->second.Ref2 << "\t" << value.start2 << "\t" << value.end2 << "\t";
-            buffer << it->second.Ori << "\t" << (value.pairs - value.clone) << "\t" << value.clone << "\t" << it->second.Type << "\t";
-            buffer << value.ov << "\t" << value.prob_size << "\t" << value.probability << "\t";
-            buffer << value.against << "-" << value.must << "\t";
-            buffer << value.FirstConcordantOverlap << "-" << value.SecondConcordantOverlap << "\t";
-            buffer << relativeConcordant << "\t";
-            buffer << value.FirstNoise << "-" << value.SecondNoise << "\t";
-            buffer << relativeNoise;
-            buffer << endl;
+            if (VCFoutput) {
+                if (it->second.Type.compare("deletion") == 0) {
+                    buffer << it->second.Ref1 << "\t" << value.end1 << "\t.\t.\t.\t.\tPASS\tPROGRAM=picl;SVTYPE=DEL;SVLEN=";
+                    buffer << int(value.end1 - value.start2) << endl;
+                }
+            } else {
+                buffer << it->second.Ref1 << "\t" << value.start1 << "\t" << value.end1 << "\t";
+                buffer << it->second.Ref2 << "\t" << value.start2 << "\t" << value.end2 << "\t";
+                buffer << it->second.Ori << "\t" << (value.pairs - value.clone) << "\t" << value.clone << "\t" << it->second.Type << "\t";
+                buffer << value.ov << "\t" << value.prob_size << "\t" << value.probability << "\t";
+                buffer << value.against << "-" << value.must << "\t";
+                buffer << value.FirstConcordantOverlap << "-" << value.SecondConcordantOverlap << "\t";
+                buffer << relativeConcordant << "\t";
+                buffer << value.FirstNoise << "-" << value.SecondNoise << "\t";
+                buffer << relativeNoise;
+                buffer << endl;
+            }
         }
     }
     return buffer.str();

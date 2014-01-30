@@ -83,6 +83,7 @@ public:
     bool ReadFile(string filename, int Cuttoff, float prob_cutoff, float max_noise, float max_concordant, float min_concordant);
     
     string PrintFile(unsigned short int MinAgainst, unsigned short int MinMust);
+    string PrintFile(unsigned short int MinAgainst, unsigned short int MinMust, bool VCFoutput);
     bool OpenFile();
     bool CloseFile();
     bool WriteHeader();

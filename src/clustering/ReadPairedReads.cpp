@@ -69,6 +69,9 @@ void ReadPairedReads::InternalRun() {
             MateNotMapped++;
             continue;
         }
+        if (!alignment.IsPrimaryAlignment()) {
+            continue;
+        }
         if (config ->SkipDuplicates && alignment.IsDuplicate()) {
             Duplicates++;
             continue;

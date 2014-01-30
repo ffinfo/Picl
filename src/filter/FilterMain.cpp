@@ -45,8 +45,10 @@ int FilterMain::main(int argc, char* argv[]) {
         exit(1);
     }
     
+    //cerr << "'" << argv[3] << "'" << endl;
+    
     InputFile = argv[argc-1];
-    for (int t = 1; t < (argc - 1); t++) {
+    for (int t = 1; t < (argc); t++) {
         if (strcmp(argv[t], "-c") == 0 or strcmp(argv[t], "--cuttoff") == 0) {
             cuttoff = atoi(argv[t+1]);
             t++;
@@ -80,6 +82,9 @@ int FilterMain::main(int argc, char* argv[]) {
         } else if (strcmp(argv[t], "-minconcordant") == 0) {
             min_concordant = atof(argv[t+1]);
             t++;
+        } else if (strcmp(argv[t], "-vcf") == 0) {
+            VCFoutput = true;
+            cout << "## VCF output" << endl;
         }
     }
     if (MinMustOption != 0) MinMust = MinMustOption;
@@ -146,7 +151,7 @@ int FilterMain::main(int argc, char* argv[]) {
         }
     }*/
     
-    cout << Input.PrintFile(MinAgainst, MinMust);
+    cout << Input.PrintFile(MinAgainst, MinMust, VCFoutput);
     
     return 0;
 }
