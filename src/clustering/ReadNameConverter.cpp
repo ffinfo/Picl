@@ -75,7 +75,7 @@ unsigned long int ReadNameConverter::ConvertSolid5(string &Name) { // Based on: 
     istringstream bn1 (NameID.substr(0, NameID.find('_')));
     bn1 >> IdNumber[0];
     NameID = NameID.substr(NameID.find('_') + 1, NameID.length());
-        
+    
     istringstream bn2 (NameID.substr(0, NameID.find('_')));
     bn2 >> IdNumber[1];
     NameID = NameID.substr(NameID.find('_') + 1, NameID.length());
@@ -178,12 +178,21 @@ unsigned long int ReadNameConverter::ConvertSolid5_2(string &Name, string &ReadG
 }
 
 unsigned long int ReadNameConverter::ConvertIlumnia(string& Name, string& ReadGroup) {
-    //int it = Name.find_last_of(".");
-    unsigned long int ID = atoi(Name.substr(Name.find_last_of(".") + 1, Name.size()).c_str());
+    unsigned int it = Name.find_last_of(":");
+    unsigned long int ID3 = atoi(Name.substr(it + 1, Name.size()).c_str());
+    Name = Name.substr(0, it);
+
+    it = Name.find_last_of(":");
+    unsigned long int ID2 = atoi(Name.substr(it + 1, Name.size()).c_str());
+    Name = Name.substr(0, it);
+
+    it = Name.find_last_of(":");
+    unsigned long int ID1 = atoi(Name.substr(it + 1, Name.size()).c_str());
+    Name = Name.substr(0, it);
     
     TrimName(ReadGroup);
-    
-    return (ReadGroups[ReadGroup] + (ID * 1000000000));
+
+    return ((ReadGroups[ReadGroup] * 10e18) + (ID1 * 10e12) + (ID2 * 10e6) + (ID3));
 }
 
 unsigned long int ReadNameConverter::ConvertSimulated(string& Name) { // ref-id
